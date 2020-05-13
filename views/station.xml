@@ -1,0 +1,68 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <!--&lt;!&ndash;-->
+        <record model="ir.ui.view" id="call__center.station_list">
+            <field name="name">Call_Center list</field>
+            <field name="model">callcenter.call_station</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!--&ndash;&gt;-->
+
+        <!--    form view-->
+        <record model="ir.ui.view" id="call__center.station_form">
+            <field name="name">Call_Center Form</field>
+            <field name="model">callcenter.call_station</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <h2>
+                                <field name="name"/>
+                            </h2>
+                            <field name="calls">
+                                <tree>
+                                    <field name="source"/>
+                                    <field name="duration"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+        <!--&lt;!&ndash;-->
+        <record model="ir.actions.act_window" id="call__center.station_action_window">
+            <field name="name">Call_Center window</field>
+            <field name="res_model">callcenter.call_station</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!--&ndash;&gt;-->
+
+        <!-- server action to the one above -->
+        <!--&lt;!&ndash;-->
+        <!--    <record model="ir.actions.server" id="call__center.action_server">-->
+        <!--      <field name="name">Call_Center server</field>-->
+        <!--      <field name="model_id" ref="model_call__center_call__center"/>-->
+        <!--      <field name="state">code</field>-->
+        <!--      <field name="code">-->
+        <!--        action = {-->
+        <!--          "type": "ir.actions.act_window",-->
+        <!--          "view_mode": "tree,form",-->
+        <!--          "res_model": model._name,-->
+        <!--        }-->
+        <!--      </field>-->
+        <!--    </record>-->
+        <!--&ndash;&gt;-->
+
+        <menuitem name="Station" id="call__center.menu_1_station_list" parent="call__center.menu_1"
+                  action="call__center.station_action_window"/>
+    </data>
+</odoo>

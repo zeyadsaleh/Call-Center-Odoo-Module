@@ -1,0 +1,41 @@
+<odoo>
+
+    <report
+         id="call__center.report"
+        model="callcenter.call_center"
+        string="Calls Report"
+        name="call__center.report_call_view"
+        file="call__center.call"
+        report_type="qweb-pdf" />
+
+    <template id="call__center.report_call_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <center>
+                          <h2 t-field="doc.name"/>
+                        </center>
+                        <p>From <span t-field="doc.start_time"/> to <span t-field="doc.stop_time"/></p>
+                      <p>
+                        <span t-field="doc.source"/>
+                      </p>
+                      <p>
+                        <span t-field="doc.destination"/>
+                      </p>
+                       <p>
+                        <span t-field="doc.station.name"/>
+                      </p>
+                        <h3>Tags:</h3>
+                        <ul>
+                            <t t-foreach="doc.tags" t-as="tag">
+                                <li><span t-field="tag.name"/></li>
+                            </t>
+                        </ul>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

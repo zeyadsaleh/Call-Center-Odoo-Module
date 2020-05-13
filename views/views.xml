@@ -1,0 +1,174 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <!--&lt;!&ndash;-->
+        <record model="ir.ui.view" id="call__center.list">
+            <field name="name">Call_Center list</field>
+            <field name="model">callcenter.call_center</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
+                    <field name="source"/>
+                    <field name="destination"/>
+                    <field name="station"/>
+                    <field name="duration" widget="float_time"/>
+                </tree>
+            </field>
+        </record>
+        <!--&ndash;&gt;-->
+
+        <!--    form view-->
+        <record model="ir.ui.view" id="call__center.form">
+            <field name="name">Call_Center Form</field>
+            <field name="model">callcenter.call_center</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="create_invoice" string="Create Invoice" type="object"/>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <h2>
+                                <field name="name"/>
+                            </h2>
+                            <field name="partner_id"/>
+                            <field name="start_time"/>
+                            <field name="stop_time"/>
+                            <field name="source"/>
+                            <field name="destination"/>
+                            <field name="station"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="tags" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- calendar view -->
+        <record model="ir.ui.view" id="call__center.calendar">
+            <field name="name">Call_Center Calendur</field>
+            <field name="model">callcenter.call_center</field>
+            <field name="arch" type="xml">
+                <calendar string="Date Calendar" date_start="start_time" date_stop="stop_time">
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
+                    <field name="duration"/>
+                </calendar>
+            </field>
+        </record>
+
+
+        <!--      graph view-->
+        <record model="ir.ui.view" id="call__center.graph">
+            <field name="name">Call_Center Graph</field>
+            <field name="model">callcenter.call_center</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
+                </graph>
+            </field>
+        </record>
+
+
+        <!--        Kanban-->
+
+        <record model="ir.ui.view" id="call__center.kanban">
+            <field name="name">Call_Center Kanban</field>
+            <field name="model">callcenter.call_center</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="source"/>
+                    <field name="destination"/>
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
+                    <progressbar field="start_time"
+                                 colors="{&quot;planned&quot;: &quot;success&quot;, &quot;today&quot;: &quot;warning&quot;, &quot;overdue&quot;: &quot;danger&quot;}"
+                                 sum_field="duration"
+                                 help=""/>
+
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <field name="start_time"/>
+                                <field name="stop_time"/>
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+            </field>
+        </record>
+        <!--        searching -->
+        <record model="ir.ui.view" id="call__center.search">
+            <field name="name">Call_Center Search</field>
+            <field name="model">callcenter.call_center</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="source"/>
+                    <field name="station"/>
+                    <field name="destination"/>
+                    <filter name="current_month" string="Start Time" date="start_time"/>
+                    <filter name="invoiced" string="Invoiced" domain="[('state', '=', 'invoiced')]"/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                    <group string="Group By">
+                        <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                        <filter name="group_by_name" string="Name" context="{'group_by': 'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <!--&lt;!&ndash;-->
+        <record model="ir.actions.act_window" id="call__center.action_window">
+            <field name="name">Call_Center window</field>
+            <field name="res_model">callcenter.call_center</field>
+            <field name="view_mode">tree,form,kanban,calendar,graph</field>
+        </record>
+        <!--&ndash;&gt;-->
+
+        <!-- server action to the one above -->
+        <!--&lt;!&ndash;-->
+        <!--    <record model="ir.actions.server" id="call__center.action_server">-->
+        <!--      <field name="name">Call_Center server</field>-->
+        <!--      <field name="model_id" ref="model_call__center_call__center"/>-->
+        <!--      <field name="state">code</field>-->
+        <!--      <field name="code">-->
+        <!--        action = {-->
+        <!--          "type": "ir.actions.act_window",-->
+        <!--          "view_mode": "tree,form",-->
+        <!--          "res_model": model._name,-->
+        <!--        }-->
+        <!--      </field>-->
+        <!--    </record>-->
+        <!--&ndash;&gt;-->
+
+        <!-- Top menu item -->
+        <!--&lt;!&ndash;-->
+        <menuitem name="Call_Center" id="call__center.menu_root"/>
+        <!--&ndash;&gt;-->
+        <!-- menu categories -->
+        <!--&lt;!&ndash;-->
+        <menuitem name="List" id="call__center.menu_1" parent="call__center.menu_root"/>
+        <!--    <menuitem name="Menu 2" id="call__center.menu_2" parent="call__center.menu_root"/>-->
+        <!--&ndash;&gt;-->
+        <!-- actions -->
+        <!--&lt;!&ndash;-->
+        <menuitem name="List" id="call__center.menu_1_list" parent="call__center.menu_1"
+                  action="call__center.action_window"/>
+        <!--    <menuitem name="Server to list" id="call__center" parent="call__center.menu_2"-->
+        <!--              action="call__center.action_server"/>-->
+        <!--&ndash;&gt;-->
+    </data>
+</odoo>
